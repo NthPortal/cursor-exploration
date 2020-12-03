@@ -85,7 +85,7 @@ object Cursor {
 
   private[this] val _empty: Cursor[Nothing] = EmptyCursor.instance
 
-  /** @return an empty cursor over no elements */
+  /** @return an empty cursor over zero elements */
   @inline final def empty[A]: Cursor[A] = _empty
 
   /**

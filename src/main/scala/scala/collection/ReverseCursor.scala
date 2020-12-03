@@ -48,6 +48,6 @@ trait ReverseCursor[+A] extends Cursor[A] {
 object ReverseCursor {
   private[this] val _empty: ReverseCursor[Nothing] = EmptyCursor.instance
 
-  /** @return an empty reverse cursor over no elements */
+  /** @return an empty reverse cursor over zero elements */
   @inline final def empty[A]: ReverseCursor[A] = _empty
 }
