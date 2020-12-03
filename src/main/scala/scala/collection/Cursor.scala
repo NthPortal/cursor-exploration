@@ -26,10 +26,30 @@ trait Cursor[+A] extends IterableOnce[A] {
    * Advances this cursor and places it over the next element,
    * or over nothing if there are no subsequent elements to traverse.
    *
+   * Advancing a cursor that is already over nothing and has no
+   * subsequent elements to traverse has no effect.
+   *
    * @return `true` if the cursor was placed over the next
    *         element; `false` otherwise
    */
   def advance(): Boolean
+
+  /**
+   * Attempts to advance this cursor a given number of times.
+   *
+   * @param times the number of times to advance the cursor
+   * @return `true` if the cursor was able to be advanced the
+   *         given number of times and was placed over an element
+   *         the final time it was advanced; `false` otherwise
+   */
+  final def advance(times: Int): Boolean = {
+    require(times >= 0, "cannot advance a negative number of times")
+    var remaining = times
+    while (remaining > 0 && advance()) {
+      remaining -= 1
+    }
+    remaining == 0
+  }
 
   /**
    * @throws scala.NoSuchElementException if this cursor is not over

@@ -17,10 +17,30 @@ trait ReverseCursor[+A] extends Cursor[A] {
    * or over nothing if there are no previous elements to traverse
    * in reverse.
    *
+   * Retreating a cursor that is already over nothing and has no
+   * previous elements to traverse has no effect.
+   *
    * @return `true` if the cursor was placed over the previous
    *         element; `false` otherwise
    */
   def retreat(): Boolean
+
+  /**
+   * Attempts to retreat this cursor a given number of times.
+   *
+   * @param times the number of times to retreat the cursor
+   * @return `true` if the cursor was able to be retreated the
+   *         given number of times and was placed over an element
+   *         the final time it was retreated; `false` otherwise
+   */
+  final def retreat(times: Int): Boolean = {
+    require(times >= 0, "cannot retreat a negative number of times")
+    var remaining = times
+    while (remaining > 0 && retreat()) {
+      remaining -= 1
+    }
+    remaining == 0
+  }
 }
 
 object ReverseCursor {
