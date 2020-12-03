@@ -1,5 +1,7 @@
 package scala.collection
 
+import scala.collection.mutable.cursor.EmptyCursor
+
 /**
  * A [[Cursor]] that can also traverse a collection in reverse,
  * and can change the direction of traversal at any time.
@@ -44,11 +46,7 @@ trait ReverseCursor[+A] extends Cursor[A] {
 }
 
 object ReverseCursor {
-  private[collection] trait Empty extends Cursor.Empty with ReverseCursor[Nothing] {
-    def retreat(): Boolean = false
-  }
-
-  private[this] val _empty: ReverseCursor[Nothing] = new AbstractCursor[Nothing] with Empty
+  private[this] val _empty: ReverseCursor[Nothing] = EmptyCursor.instance
 
   /** @return an empty reverse cursor over no elements */
   @inline final def empty[A]: ReverseCursor[A] = _empty

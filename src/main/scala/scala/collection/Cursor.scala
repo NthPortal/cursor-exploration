@@ -1,5 +1,7 @@
 package scala.collection
 
+import scala.collection.mutable.cursor.EmptyCursor
+
 /**
  * A utility for traversing a collection with a cursor that
  * points to or "hovers over" each element one at a time.
@@ -81,15 +83,7 @@ object Cursor {
   // sentinel indicating that a cursor is not over an element
   private[collection] final val overNothing = new AnyRef
 
-  // TODO: create a single empty cursor implementation with all the traits/mixins
-  private[collection] trait Empty extends Cursor[Nothing] {
-    def advance() = false
-    @throws[NoSuchElementException]
-    def current = throw new NoSuchElementException("current when cursor over nothing")
-    override def knownSize: Int = 0
-  }
-
-  private[this] val _empty: Cursor[Nothing] = new AbstractCursor[Nothing] with Empty
+  private[this] val _empty: Cursor[Nothing] = EmptyCursor.instance
 
   /** @return an empty cursor over no elements */
   @inline final def empty[A]: Cursor[A] = _empty
