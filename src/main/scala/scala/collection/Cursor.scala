@@ -137,7 +137,7 @@ object Cursor {
 
     def advance(): Boolean = {
       val hasNext = it.hasNext
-      cur = if (hasNext) it.next().asInstanceOf[AnyRef] else overNothing // reset so we don't leak memory
+      cur = if (hasNext) it.next().asInstanceOf[AnyRef] else overNothing
       hasNext
     }
 
